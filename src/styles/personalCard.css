@@ -1,0 +1,26 @@
+.edit_card{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  margin:auto;
+  height: 100vh;
+  overflow-y: scroll;
+  padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+  box-sizing: content-box; /* So the width will be 100% + 17px */
+}
+/* edit_box */
+.edit_box{
+  width: 95%;
+  height: 80%;
+  border: 1px solid white;
+  padding: 10px;
+  margin-top: 20px;
+}
+/* edit_field */
+.edit_fields{
+  width: 100%;
+  border: 1px soldi green;
+  background: rgb(150, 84, 84);
+  padding: 10px;
+}
