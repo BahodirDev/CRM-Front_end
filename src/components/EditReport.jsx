@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../styles/personalCard.css';
+import M from 'materialize-css';
 
 function EditReport(props) {
 
@@ -24,14 +25,20 @@ function EditReport(props) {
     const [sale_price = emp_info.sale_price, setSale] = useState(emp_info.sale_price);
 
     function editReport(){
+        if(amount < 0){
+            M.toast({html:"Ma`lumotni to`g`ri kiriting",classes:'red'})
+        }else{
+
         fetch('http://localhost:5000/editReport/' + id,{
             method:"PUT",
             headers:{
-                "Content-Type":'application/json'
+                "Content-Type":'application/json',
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
             },
             body:JSON.stringify({
                 name,
                 amount,
+                org_amount:emp_info.amount,
                 sale_price,
                 postedBy:emp_info.postedBy,
                 product_id:emp_info.product_id,
@@ -41,9 +48,16 @@ function EditReport(props) {
         })
         .then(res=>res.json())
         .then(data=>{
-            console.log(data);
-            // navigate('/products')
+            if(data.error){
+                M.toast({html:data.error,classes:"red"})
+
+            }else{
+                M.toast({html:"Muvaffaqiyatli amalga oshirildi",classes:"blue"})
+                navigate('/report')
+            }
         })
+    }
+
     }
 
     return (
@@ -51,18 +65,25 @@ function EditReport(props) {
             {
                 emp_info &&
                 <div className='edit_card'>
+                                 <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
                     <div className='edit_box'>
                         <div class=" mb-3">
-                            <input type="text" class="form-control" id="floatingInput" defaultValue={emp_info.name} onChange={e => setName(e.target.value)} placeholder={emp_info.name} />
+                            <label htmlFor="name" className='label_report'>Mahsulot Nomi</label>
+                            <input type="text"  class="form-control" id="name" defaultValue={emp_info.name} onChange={e => setName(e.target.value)} placeholder={emp_info.name} />
                         </div>
                         <div class="">
-                            <input type="text" class="form-control" id="floatingPassword" defaultValue={emp_info.category}  placeholder={emp_info.category} />
+                        <label htmlFor="cat_name" className='label_report'>Mahsulot Turi</label>
+                            <input type="text" class="form-control" id="cat_name" defaultValue={emp_info.category}  placeholder={emp_info.category} />
                         </div>
                         <div class="">
-                            <input type="number" class="form-control" id="floatingPassword" defaultValue={emp_info.amount} onChange={e => setAmount(e.target.value)} placeholder={emp_info.amount + " miqdor"} />
+                        <label htmlFor="amount" className='label_report'>Mahsulot Miqdori</label>
+                            <input type="number" class="form-control" id="amount" defaultValue={emp_info.amount} onChange={e => setAmount(e.target.value)} placeholder={emp_info.amount + " miqdor"} />
                         </div>
                         <div class="">
-                            <input type="number" class="form-control" id="floatingPassword" defaultValue={emp_info.sale_price} onChange={e => setSale(e.target.value)} placeholder={emp_info.sale_price} />
+                        <label htmlFor="price" className='label_report'>Mahsulot Narxi</label>
+                            <input type="number" class="form-control" id="price" defaultValue={emp_info.sale_price} onChange={e => setSale(e.target.value)} placeholder={emp_info.sale_price} />
                         </div>
                         <div>
                             <button className='btn btn-primary' onClick={editReport}>O'zgartirish</button>

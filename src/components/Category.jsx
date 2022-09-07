@@ -23,6 +23,9 @@ function Category(props) {
     const remove=(id)=>{
         fetch('http://localhost:5000/remove/'+id,{
             method:"DELETE",
+            headers:{
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
+            }
         })
         .then(res=>res.json())
         .then(data=>{

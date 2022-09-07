@@ -11,7 +11,11 @@ function Edit(props) {
        const [emp_info,setEmp] = useState("")
          const { id } = useParams();
     useEffect(() => {
-        fetch("http://localhost:5000/editUser/" + id)
+        fetch("http://localhost:5000/editUser/" + id,{
+            headers:{
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
+            }
+        })
             .then(data => data.json())
             .then(res => {
                 console.log(res);
@@ -24,14 +28,15 @@ function Edit(props) {
     const [tel = emp_info.tel, setTel] = useState(emp_info.tel);
     const [time = emp_info.assign_time, setTime] = useState(emp_info.time);
     const [login = emp_info.login,setLogin,] = useState(emp_info.login);
-    const [role = emp_info.role,setRole,] = useState(emp_info.role);
+    const [role,setRole,] = useState(emp_info.role);
 
     function editUser(){
-        console.log(time,name,login,tel,desc);
+       
         fetch('http://localhost:5000/editUser/' + id,{
             method:"PUT",
             headers:{
-                "Content-Type":'application/json'
+                "Content-Type":'application/json',
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
             },
             body:JSON.stringify({
                 fish:name,
@@ -45,14 +50,21 @@ function Edit(props) {
         })
         .then(res=>res.json())
         .then(data=>{
-            console.log(data);
-            dispatch({ type: "EMP_FETCHED_INFO", payload: data });
-            navigate('/employees')
+            if(data.error){
+                M.toast({html:data.error,classes:"red"})
+            }else{
+                M.toast({html:'Muvaffaqiyatli amalga oshirildi',classes:"green"})
+                dispatch({ type: "EMP_FETCHED_INFO", payload: data });
+                navigate('/employees')
+            }
         })
     }
 
     return (
         <div className='edit_card'>
+               <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
             <div className='edit_box'>
                 <div class=" mb-3">
                     <input type="text" class="form-control" id="floatingInput" defaultValue={emp_info.fish} onChange={e=>setName(e.target.value)} placeholder={emp_info.fish} />

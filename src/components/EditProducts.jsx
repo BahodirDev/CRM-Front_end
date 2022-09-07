@@ -30,7 +30,8 @@ function EditProducts(props) {
         fetch('http://localhost:5000/editProduct/' + id,{
             method:"PUT",
             headers:{
-                "Content-Type":'application/json'
+                "Content-Type":'application/json',
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
             },
             body:JSON.stringify({
                 name,
@@ -45,13 +46,20 @@ function EditProducts(props) {
         })
         .then(res=>res.json())
         .then(data=>{
-            console.log(data);
-            navigate('/products')
+            if(data.error){
+                M.toast({html:data.error,classes:"red"})
+            }else{
+                M.toast({html:"Muvaffaqiyatli amalga oshirildi",classes:"blue"})
+                navigate('/products')
+            }
         })
     }
 
     return (
         <div className='edit_card'>
+               <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
             <div className='edit_box'>
                 <div class=" mb-3">
                     <input type="text" class="form-control" id="floatingInput" defaultValue={emp_info.name} onChange={e=>setName(e.target.value)} placeholder={emp_info.name} />

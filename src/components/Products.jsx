@@ -22,7 +22,6 @@ function Products(props) {
         fetch('http://localhost:5000/allProducts')
             .then(data => data.json())
             .then(res => {
-                console.log(res);
                 dispatch({ type: "PRODUCTS_FETCHED", payload: res })
             })
     }, [])
@@ -31,12 +30,22 @@ function Products(props) {
     function deleteItem(id){
         if(id){
             fetch("http://localhost:5000/remove_product/"+id,{
+                headers:{
+                    Authorization:JSON.parse(localStorage.getItem('jwt'))
+                },
               method:"DELETE"
             })
             .then(data=>data.json())
             .then(res=>{
-             dispatch({type:"REMOVE_FROM_PRO",payload:res})
-             setAlert(false);
+                if(res.error){  
+                    M.toast({html:res.error,classes:"red"})
+
+                }else{
+                    M.toast({html:"O`chirildi",classes:"black"})
+                    dispatch({type:"REMOVE_FROM_PRO",payload:res})
+                    setAlert(false);
+                }
+           
       
             })
           }else{

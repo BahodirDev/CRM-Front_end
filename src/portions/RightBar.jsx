@@ -19,7 +19,6 @@ function RightBar(props) {
       .then(data => data.json())
       .then(res => {
         dispatch({ type: "EMP_FETCHED", payload: res });
-        console.log(res);
       })
   }, [])
   
@@ -28,12 +27,21 @@ function RightBar(props) {
     const deleItem = (id)=>{
       if(id){
         fetch("http://localhost:5000/remove_item/"+id,{
+          headers:{
+            Authorization:JSON.parse(localStorage.getItem('jwt'))
+          },
           method:"DELETE"
         })
         .then(data=>data.json())
         .then(res=>{
-         dispatch({type:"REMOVE_FROM_EMP",payload:res})
-        setAlert(false);
+          if(res.error){
+            M.toast({html:res.error,classes:'red'})
+            }else{
+            M.toast({html:"Muvaffaqiyatli amalga oshirildi",classes:'blue'})
+              dispatch({type:"REMOVE_FROM_EMP",payload:res})
+              setAlert(false);
+          }
+      
   
         })
       }else{

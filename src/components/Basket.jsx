@@ -73,8 +73,8 @@ function Basket(props) {
   return (
     <div className='emp_list'>
       <div>
-        <div>
-
+        <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
         </div>
         <table className='table table-striped table-hover centered'>
           <thead>
@@ -100,7 +100,6 @@ function Basket(props) {
                       <td className='tr'>{val.product_id.name}</td>
                       <td className='tr'>
                         <input type="number" className="form-control" id="floatingPassword" defaultValue={val.amount} onChange={e => {
-                          console.log(e.target.value);
                           setAmount(e.target.value)
                           fetch('http://localhost:5000/editamount', {
                             method: "put",
@@ -135,7 +134,12 @@ function Basket(props) {
                           })
                             .then(data => data.json())
                             .then(res => {
-                              dispatch({ type: "EDIT_FETCHED_BASKET_PRICE", payload: { id: val._id, price: e.target.value } })
+                              if(res.error){
+                                M.toast({html:res.error,classes:"red"})
+                              }else{
+
+                                dispatch({ type: "EDIT_FETCHED_BASKET_PRICE", payload: { id: val._id, price: e.target.value } })
+                              }
                             })
                           setPrice(e.target.value);
                           console.log(price);
@@ -192,14 +196,19 @@ function Basket(props) {
                             })
                               .then(data => data.json())
                               .then(res => {
-                                dispatch({ type: "EDIT_FETCHED_BASKET_PRICE", payload: { id: val._id, price: e.target.value } })
+                                if(res.error){
+                                  M.toast({html:res.error,classes:"red"})
+                                }else{
+  
+                                  dispatch({ type: "EDIT_FETCHED_BASKET_PRICE", payload: { id: val._id, price: e.target.value } })
+                                }
                               })
                             setPrice(e.target.value);
                             console.log(price);
                           }} placeholder={val.sale_price} />
                         </td>
                         <td>
-                          <b>{val.amount * val.product_id.sale_price} so`m</b>
+                          <b>{(val.amount * val.product_id.sale_price).toLocaleString('us-US')} so`m</b>
                         </td>
                         <td>
                           <span className='edit_icons' onClick={() => removeOrder(val._id)}>

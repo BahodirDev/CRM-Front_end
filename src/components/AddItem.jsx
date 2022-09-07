@@ -29,42 +29,49 @@ function AddItem(props) {
     const navigate = useNavigate()
 
     function addItem(){
-        console.log('salom');
-        fetch('http://localhost:5000/addproducts',{
-            method:"POST",
-            headers:{
-                Authorization:JSON.parse(localStorage.getItem('jwt')),
-                "Content-Type":'application/json',
-            },
-            body:JSON.stringify({
-                fish:name,
-                description:desc,
-                price:orgPrice,
-                sale:salePrice,
-                amount,
-                type
+        if(name, desc, amount, salePrice, orgPrice, type){
+            fetch('http://localhost:5000/addproducts',{
+                method:"POST",
+                headers:{
+                    Authorization:JSON.parse(localStorage.getItem('jwt')),
+                    "Content-Type":'application/json',
+                },
+                body:JSON.stringify({
+                    fish:name,
+                    description:desc,
+                    price:orgPrice,
+                    sale:salePrice,
+                    amount,
+                    type
+                })
+                
             })
-            
-        })
-        .then(res=>res.json())
-        .then(data=>{
-            if(data.error){
-                M.toast({html:data.error,classes:'red'})
-            }else{
-                M.toast({html:'Muvaffaqiyatli amalga oshirildi',classes:'blue'})
-                console.log(data);
-                dispatch({ type: "ADD_PRODUCTS", payload: data });
-                navigate('/store')
-            }
-           
-            // console.log(data.data);
-        })
+            .then(res=>res.json())
+            .then(data=>{
+                if(data.error){
+                    M.toast({html:data.error,classes:'red'})
+                }else{
+                    M.toast({html:'Muvaffaqiyatli amalga oshirildi',classes:'blue'})
+                    console.log(data);
+                    dispatch({ type: "ADD_PRODUCTS", payload: data });
+                    navigate('/store')
+                }
+               
+                console.log(data.data);
+            })
+        }else{
+            M.toast({html:'Xatolik',classes:'red'})
+        };
+     
     }
 
    
 
     return (
         <div className='edit_card'>
+               <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
             <div className='edit_box'>
                 <div className=" mb-3">
                     <input type="text" className="form-control" value={name} onChange={e=>setName(e.target.value)} placeholder="Mahsulot nomi"  />

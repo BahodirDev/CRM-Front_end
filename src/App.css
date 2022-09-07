@@ -46,3 +46,14 @@
   font-size: 40px;
   margin-right: 20px;
 }
+/* btn_place */
+.btn_place{
+  position: fixed;
+  bottom: 2rem;
+  right: 3rem;
+}
+/* fromText */
+#fromText{
+  font-family: 'Alumni Sans Pinstripe', sans-serif;
+font-family: 'Petit Formal Script', cursive;
+}

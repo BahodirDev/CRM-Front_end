@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../styles/show_info.css'
 
 function ShowInfo(props) {
 
     const {id}  = useParams();
     const dispatch = useDispatch();
-    const [emp_info,setEmp] = useState('')
+    const [emp_info,setEmp] = useState('');
+    const navigate = useNavigate()
 
     useEffect(()=>{
     dispatch({type:"FETCHING"})
@@ -22,6 +23,9 @@ function ShowInfo(props) {
     console.log(emp_info);
     return (
         <div className='show_info'>
+               <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
             <div className='info_place'>
                 <div className="info_box">
                    <h3>

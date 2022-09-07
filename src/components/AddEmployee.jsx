@@ -24,7 +24,8 @@ function AddEmployee(props) {
         fetch('http://localhost:5000/addemployer',{
             method:"POST",
             headers:{
-                "Content-Type":'application/json'
+                "Content-Type":'application/json',
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
             },
             body:JSON.stringify({
                 fish:name,
@@ -51,6 +52,9 @@ function AddEmployee(props) {
 
     return (
         <div className='edit_card'>
+               <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
             <div className='edit_box'>
                 <div className=" mb-3">
                     <input type="text" className="form-control" value={name} onChange={e=>setName(e.target.value)} placeholder="FISH"  />

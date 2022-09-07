@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import "../styles/report.css"
 
 function Report(props) {
-    const {user} = useSelector(state=>state)
+    const { user } = useSelector(state => state)
 
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
@@ -21,197 +21,224 @@ function Report(props) {
     const [persons, setPersons] = useState([]);
 
     const dispatch = useDispatch()
-    const {reports,searching} = useSelector(state=>state)
+    const { reports, searching } = useSelector(state => state)
     useEffect(() => {
-        dispatch({type:'FETCHING'})
+        dispatch({ type: 'FETCHING' })
         fetch('http://localhost:5000/getHistory')
             .then(data => data.json())
             .then(res => {
-                dispatch({type:"REPORT",payload:res})
+                dispatch({ type: "REPORT", payload: res })
                 console.log(res);
             })
         fetch('http://localhost:5000/getCategory')
             .then(data => data.json())
             .then(res => {
-                
+
                 setCategories(res)
                 console.log(res);
             })
         fetch('http://localhost:5000/allList')
             .then(data => data.json())
             .then(res => {
-              
+
                 setPersons(res)
                 console.log(res);
             })
     }, []);
 
     function filterReport(e) {
-            setDate(e.target.value)
-            fetch(`http://localhost:5000/getQuery`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":'application/json',
-                    Authorization:JSON.parse(localStorage.getItem('jwt'))
-                },
-                body:JSON.stringify({
-                   date:e.target.value
-                })
+        setDate(e.target.value)
+        fetch(`http://localhost:5000/getQuery`, {
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json',
+                Authorization: JSON.parse(localStorage.getItem('jwt'))
+            },
+            body: JSON.stringify({
+                date: e.target.value
             })
-            .then(data=>data.json())
-            .then(res=>{
-                if(res.error){
-                    M.toast({html:res.error,classes:'red'})
-                }else{
+        })
+            .then(data => data.json())
+            .then(res => {
+                if (res.error) {
+                    M.toast({ html: res.error, classes: 'red' })
+                } else {
                     console.log(res);
-                    dispatch({type:"FILTER_QUERY",payload:res})
+                    dispatch({ type: "FILTER_QUERY", payload: res })
                 }
             })
-        
-       
+
+
+    }
+    function filterReport4(e) {
+        setDate(e.target.value)
+        fetch(`http://localhost:5000/getQuery`, {
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json',
+                Authorization: JSON.parse(localStorage.getItem('jwt'))
+            },
+            body: JSON.stringify({
+                month: e.target.value
+            })
+        })
+            .then(data => data.json())
+            .then(res => {
+                if (res.error) {
+                    M.toast({ html: res.error, classes: 'red' })
+                } else {
+                    console.log(res);
+                    dispatch({ type: "FILTER_QUERY", payload: res })
+                }
+            })
+
+
     }
     function filterReport33(e) {
         setName(e.target.value)
-            fetch(`http://localhost:5000/getQuery`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":'application/json',
-                    Authorization:JSON.parse(localStorage.getItem('jwt'))
-                },
-                body:JSON.stringify({
-                   name:e.target.value
-                })
+        fetch(`http://localhost:5000/getQuery`, {
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json',
+                Authorization: JSON.parse(localStorage.getItem('jwt'))
+            },
+            body: JSON.stringify({
+                name: e.target.value
             })
-            .then(data=>data.json())
-            .then(res=>{
-                if(res.error){
-                    M.toast({html:res.error,classes:'red'})
-                }else{
+        })
+            .then(data => data.json())
+            .then(res => {
+                if (res.error) {
+                    M.toast({ html: res.error, classes: 'red' })
+                } else {
                     console.log(res);
-                    dispatch({type:"FILTER_QUERY",payload:res})
+                    dispatch({ type: "FILTER_QUERY", payload: res })
                 }
             })
-        
-       
+
+
     }
     function filterReport2(e) {
         setPerson(e.target.value)
-           if(name.length < 0){
-            M.toast({html:"Mahsulot nomini kiritng",classes:'red'})
-           }else{
-            fetch(`http://localhost:5000/getQuery`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":'application/json'
+        if (name.length < 0) {
+            M.toast({ html: "Mahsulot nomini kiritng", classes: 'red' })
+        } else {
+            fetch(`http://localhost:5000/getQuery`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": 'application/json'
                 },
-                body:JSON.stringify({
-                    person:e.target.value,
+                body: JSON.stringify({
+                    person: e.target.value,
                 })
             })
-            .then(data=>data.json())
-            .then(res=>{
-                if(res.error){
-                    M.toast({html:res.error,classes:'red'})
-                }else{
-                    console.log(res);
-                    dispatch({type:"FILTER_QUERY",payload:res});
+                .then(data => data.json())
+                .then(res => {
+                    if (res.error) {
+                        M.toast({ html: res.error, classes: 'red' })
+                    } else {
+                        console.log(res);
+                        dispatch({ type: "FILTER_QUERY", payload: res });
 
-                }
-            })
-           }
-        
-       
+                    }
+                })
+        }
+
+
     }
     function filterReport3(e) {
         setCategory(e.target.value)
-           if(name.length < 0){
-            M.toast({html:"Mahsulot nomini kiritng",classes:'red'})
-           }else{
-            fetch(`http://localhost:5000/getQuery`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":'application/json'
+        if (name.length < 0) {
+            M.toast({ html: "Mahsulot nomini kiritng", classes: 'red' })
+        } else {
+            fetch(`http://localhost:5000/getQuery`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": 'application/json'
                 },
-                body:JSON.stringify({
-                    category:e.target.value
+                body: JSON.stringify({
+                    category: e.target.value
                 })
             })
-            .then(data=>data.json())
-            .then(res=>{
-                console.log(res);
-                if(res.error){
-                    M.toast({html:res.error,classes:'red'})
-                }else{
+                .then(data => data.json())
+                .then(res => {
+                    console.log(res);
+                    if (res.error) {
+                        M.toast({ html: res.error, classes: 'red' })
+                    } else {
 
-                    dispatch({type:"FILTER_QUERY",payload:res})
-                }
-            })
-           }
-        
-       
-    }
-    const generelReport =() =>{
-        fetch(`http://localhost:5000/getQueryReport`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":'application/json'
-                },
-                body:JSON.stringify({
-                    category,
-                    name,
-                    person,
-                    date
+                        dispatch({ type: "FILTER_QUERY", payload: res })
+                    }
                 })
+        }
+
+
+    }
+    const generelReport = () => {
+        fetch(`http://localhost:5000/getQueryReport`, {
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify({
+                category,
+                name,
+                person,
+                date
             })
-            .then(data=>data.json())
-            .then(res=>{
+        })
+            .then(data => data.json())
+            .then(res => {
                 console.log(res);
-                if(res.error){
-                    M.toast({html:res.error,classes:'red'})
-                }else{
+                if (res.error) {
+                    M.toast({ html: res.error, classes: 'red' })
+                } else {
                     setName('')
                     setCategory('')
                     setPerson('')
                     setDate('')
-                    dispatch({type:"FILTER_QUERY",payload:res})
+                    dispatch({ type: "FILTER_QUERY", payload: res })
                 }
             })
     }
 
-    const remove = (id)=>{
-        fetch('http://localhost:5000/removeReport/'+id,{
-            method:"DELETE"
+    const remove = (id) => {
+        fetch('http://localhost:5000/removeReport/' + id, {
+            headers:{
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
+            },
+            method: "DELETE"
         })
-        .then(data => data.json())
-        .then(res => {
-            if(res.error){
-                M.toast({html:res.error,classes:'red'})
-            }else{
-                M.toast({html:"Muvaffaqiyatli amalga oshirildi",classes:"blue"})
-                dispatch({type:"REPORT_DELETE",payload:res})
-                console.log(res);
-            }
-           
-        })
+            .then(data => data.json())
+            .then(res => {
+                if (res.error) {
+                    M.toast({ html: res.error, classes: 'red' })
+                } else {
+                    M.toast({ html: "Muvaffaqiyatli amalga oshirildi", classes: "blue" })
+                    dispatch({ type: "REPORT_DELETE", payload: res })
+                    console.log(res);
+                }
+
+            })
     }
 
 
     // summa
-    let totalCost = reports.reduce((box,val)=>{
+    let totalCost = reports.reduce((box, val) => {
         return box += (val.amount * val.sale_price)
-    },0)
+    }, 0)
 
     return (
         <div className='report'>
             <div className='report_bar'>
-                <div style={{borderRight:"1px solid #eeeee"}}>
-                    <input type="date" className='form-control'  placeholder='Qidiruv' onChange={filterReport} /> 
+                <div style={{ borderRight: "1px solid #eeeee" }}>
+                    <input type="date" className='form-control' placeholder='Qidiruv' onChange={filterReport} />
                 </div>
                 <div>
-                <select className='form-control' onChange={filterReport2}>
-                           <option value={user.id} disabled>.....</option>
+                    <select className='form-control' onChange={filterReport2}>
+                        <option value={user.id} disabled>.....</option>
                         {
-                            persons && persons.map((val,idx)=>{
+                            persons && persons.map((val, idx) => {
                                 return (
                                     <option value={val._id} key={idx}>{val.fish}</option>
                                 )
@@ -219,24 +246,25 @@ function Report(props) {
                         }
                     </select>
                     <select className='form-control' onChange={filterReport3}>
-                           <option>.....</option>
+                        <option>.....</option>
                         {
-                            categories && categories.map((val,idx)=>{
+                            categories && categories.map((val, idx) => {
                                 return (
                                     <option value={val.cat_name} key={idx}>{val.cat_name}</option>
                                 )
                             })
                         }
                     </select>
-                    <div>
-                        <h6>
-                            umumiy summa: {totalCost.toLocaleString('en-US')}
-                        </h6>
-                    </div>
+
                 </div>
-                <div style={{borderRight:"1px solid #eeeee"}}>
-                    <input type="text" className='form-control' value={name}  placeholder='Qidiruv' onChange={filterReport33} /> 
+                <div style={{ borderRight: "1px solid #eeeee" }}>
+                    <input type="text" className='form-control' value={name} placeholder='Qidiruv' onChange={filterReport33} />
                     <button className='btn blue' onClick={generelReport}>Qidiruv</button>
+                </div>
+                <div>
+                    <h6>
+                        umumiy summa: {totalCost.toLocaleString('en-US')}
+                    </h6>
                 </div>
             </div>
             <table className='centered'>
@@ -256,13 +284,13 @@ function Report(props) {
 
                 <tbody>
                     {
-    
+
                         reports.length &&
                         reports.map((val, idx) => {
                             console.log('reports');
                             return (
                                 <tr key={idx}>
-                                     <td>{idx+1}</td>
+                                    <td>{idx + 1}</td>
                                     <td>{val.product_id.name}</td>
                                     <td>{val.product_id.cat_id}</td>
                                     <td>{val.amount}</td>
@@ -272,11 +300,11 @@ function Report(props) {
                                     <td>{val.createdAt}</td>
                                     <td>{val.postedBy.fish}</td>
                                     <td>
-                                        <span onClick={()=>remove(val._id)}>
-                                          <BsTrash  className='BcClass'/>
+                                        <span onClick={() => remove(val._id)}>
+                                            <BsTrash className='BcClass' />
                                         </span>
-                                        <Link to={'/edit_report/'+val._id}>
-                                          <BiEdit  className='BcClass'/>
+                                        <Link to={'/edit_report/' + val._id}>
+                                            <BiEdit className='BcClass' />
                                         </Link>
                                     </td>
                                 </tr>

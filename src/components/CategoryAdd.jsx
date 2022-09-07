@@ -16,10 +16,14 @@ function CategoryAdd(props) {
     const navigate = useNavigate()
 
     function addCategory(){
+        if(!name){
+            M.toast({html:"Ma`lumotni to`liq kiriting"})
+        }else{
         fetch('http://localhost:5000/categoryAdd',{
             method:"POST",
             headers:{
-                "Content-Type":'application/json'
+                "Content-Type":'application/json',
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
             },
             body:JSON.stringify({
                 catName:name
@@ -39,9 +43,13 @@ function CategoryAdd(props) {
         
         })
     }
+    }
 
     return (
         <div className='edit_card'>
+               <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
             <div className='edit_box'>
                 <div className=" mb-3" style={{marginTop:'200px'}}>
                     <input type="text" className="form-control" value={name} onChange={e=>setName(e.target.value)} placeholder="Category nomi"  />

@@ -26,7 +26,8 @@ function EditCat(props) {
         fetch('http://localhost:5000/categoryEdit/' + id,{
             method:"PUT",
             headers:{
-                "Content-Type":'application/json'
+                "Content-Type":'application/json',
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
             },
             body:JSON.stringify({
                 name:name,
@@ -35,13 +36,21 @@ function EditCat(props) {
         })
         .then(res=>res.json())
         .then(data=>{
-            navigate('/category');
-            M.toast({html:"Muvaffaqiyatli bajarildi",classes:"blue"})
+            if(data.error){
+            M.toast({html:data.error,classes:"red"})
+            }else{
+                navigate('/category');
+                M.toast({html:"Muvaffaqiyatli bajarildi",classes:"blue"})
+            }
+
         })
     }
 
     return (
         <div className='edit_card'>
+               <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
             <div className='edit_box'>
                 <div className=" mb-3" style={{marginTop:'120px'}}>
                     <input type="text" className="form-control" id="floatingInput" defaultValue={emp_info.cat_name} onChange={e=>setName(e.target.value)} placeholder={emp_info.cat_name} />

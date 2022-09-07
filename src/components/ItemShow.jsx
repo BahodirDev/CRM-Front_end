@@ -56,6 +56,9 @@ function ItemShow(props) {
 
     return (
         <div className='itemId'>
+               <div className='btn_place' onClick={()=>navigate(-1)} style={{zIndex:'999999'}}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
             <div className="card" style={{width:'95%',minHeight:'80%',marginTop:"-100px"}}>
                 <div className='fields_cost'>
                    <b>Nomi: {item.name}</b>
