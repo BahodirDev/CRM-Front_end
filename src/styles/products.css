@@ -1,0 +1,72 @@
+/* products */
+.products{
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
+    gap: 1rem;
+    padding: 10px;
+    text-align: center;
+}
+
+/* products_list */
+.right_bar{
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+    box-sizing: content-box; /* So the width will be 100% + 17px */
+}
+.products_list{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    
+}
+.products_list span{
+    border: 1px solid #eeeeee;
+    margin: 5px;
+    padding: 5px;
+}
+
+/* itemId */
+.itemId{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* item_icons */
+.item_icons{
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* item_subnavbar */
+.item_subnavbar{
+    width: 100%;
+    height: 60px;
+    padding: 15px 35px;
+    z-index: 999;
+    background: transparent;
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid #808080;
+    align-items: center;
+}
+
+.cards{
+   height: 400px;
+   background: transparent;
+   background: rgba(139, 110, 110, 0.805);
+   color: rgb(255, 255, 255);
+   padding: 25px 0px;
+}
+.cards h6{
+    color: #fff;
+}
+.card_body{
+    padding: 10px 15px;
+}

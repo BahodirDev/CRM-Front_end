@@ -1,0 +1,22 @@
+/* home */
+.home{
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 20% 80% ;
+    margin-top: 0px;
+}
+
+/* login_modal */
+.login_modal{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+.login_component{
+    margin-top: 100px;
+}

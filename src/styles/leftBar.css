@@ -1,0 +1,27 @@
+.left_bar{
+    width: 100%;
+    height: calc(100vh + 76px);
+    border: 1px solid #555;
+    padding: 10px;
+}
+
+/* left_bar_list */
+.left_bar_list{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #555;
+    padding: 5px;
+    cursor: pointer;
+    margin: 5px 0px;
+}
+/* icon_place */
+.icons_space{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    margin: 0 auto;
+}

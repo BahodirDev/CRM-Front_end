@@ -1,0 +1,65 @@
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import '../styles/personalCard.css';
+import M from 'materialize-css';
+
+function CategoryAdd(props) {
+
+       const dispatch = useDispatch();
+
+    const [name, setName] = useState('');
+
+
+    const navigate = useNavigate()
+
+    function addCategory(){
+        if(!name){
+            M.toast({html:"Ma`lumotni to`liq kiriting"})
+        }else{
+        fetch('https://crmstore.herokuapp.com/categoryAdd',{
+            method:"POST",
+            headers:{
+                "Content-Type":'application/json',
+                Authorization:JSON.parse(localStorage.getItem('jwt'))
+            },
+            body:JSON.stringify({
+                catName:name
+            })
+            
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            if(data.error){
+                M.toast({html:data.error,classes:"red"})
+            }else{
+                M.toast({html:"Muvaffaqiyatli amalga oshirildi",classes:"green"})
+                console.log(data);
+                dispatch({ type: "ADD_CATEGORY", payload: data });
+                navigate('/category')
+            }
+        
+        })
+    }
+    }
+
+    return (
+        <div className='edit_card'>
+               <div className='btn_place' onClick={()=>navigate(-1)}>
+            <button className='btn primary'>Ortga qaytish</button>
+        </div>
+            <div className='edit_box'>
+                <div className=" mb-3" style={{marginTop:'200px'}}>
+                    <input type="text" className="form-control" value={name} onChange={e=>setName(e.target.value)} placeholder="Category nomi"  />
+                </div>
+                <div>
+                    <button className='btn btn-primary' onClick={addCategory}>Qo'shish</button>
+                </div>
+            </div>
+        </div>      
+    );
+}
+
+export default CategoryAdd;
